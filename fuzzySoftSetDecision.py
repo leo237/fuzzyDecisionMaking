@@ -1,3 +1,5 @@
+#---------Taking Raw input------------
+
 # numberOfParameters = raw_input("Enter the number of Parameters you want to enter : ")
 # numberOfHouses = raw_input("Enter the number of houses : ");
 
@@ -20,11 +22,42 @@
 # 	p = input()
 # 	priority.append(p)
 
-numberOfParameters = 5
-numberOfHouses = 6
-parameters = ["Beautiful","Wooden","Green Surrounded", "Expensive", "Distance"]
-rows = ["h1","h2","h3","h4","h5","h6"]
-fuzzySet = [[0.1,0,0.2,0.1,0.8],[0.9,0.6,0.8,0.8,0.3],[0.3,0.1,0.2,0.3,0.4],[0.7,0.7,0.6,0.6,0.6],[0.3,0.4,0.4,0.5,0.1],[0.9,0.5,0.6,0.6,0.5]]
+#-----------------------------Standart Input--------------
+# numberOfParameters = 5
+# numberOfHouses = 6
+# parameters = ["Beautiful","Wooden","Green Surrounded", "Expensive", "Distance"]
+# rows = ["h1","h2","h3","h4","h5","h6"]
+# fuzzySet = [[0.1,0,0.2,0.1,0.8],[0.9,0.6,0.8,0.8,0.3],[0.3,0.1,0.2,0.3,0.4],[0.7,0.7,0.6,0.6,0.6],[0.3,0.4,0.4,0.5,0.1],[0.9,0.5,0.6,0.6,0.5]]
+
+
+#-------------------------Importing Input from CSV File------------------
+import csv 
+
+parameters = []
+fuzzySet = []
+rows = []
+
+counter = 0
+with open('dataInput.csv', 'rb') as csvfile:
+	spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
+	for row in spamreader:
+		if counter == 0:
+			parameters = list(row)
+		else:
+			temp = []
+			for each in row:
+				temp.append(float(each))
+			fuzzySet.append(temp)
+		counter+=1
+
+numberOfParameters = len(parameters)
+numberOfHouses = len(fuzzySet)
+
+for i in xrange(1,numberOfHouses+1):
+	s = 'h'+str(i)
+	rows.append(s)
+
+#--------------------------------------------------
 
 priority = [0.7,0.0,0.2,-0.5,-0.2]
 
@@ -101,9 +134,11 @@ print "Semi final Result"
 for each in comparisionTable:
 	semiFinalResult.append(sum(each))
 
-semiFinalResult[0] = semiFinalResult[1]
-semiFinalResult[2] = semiFinalResult[1]
-priorityTable[0][0] = priorityTable[1][0]
+
+#----------------------Alteration to result to check algorithm------------
+# semiFinalResult[0] = semiFinalResult[1]
+# semiFinalResult[2] = semiFinalResult[1]
+# priorityTable[0][0] = priorityTable[1][0]
 
 
 print semiFinalResult
