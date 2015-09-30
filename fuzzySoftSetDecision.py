@@ -36,9 +36,9 @@ import csv
 parameters = []
 fuzzySet = []
 rows = []
-
 counter = 0
-with open('dataInput.csv', 'rb') as csvfile:
+
+with open('generatedValues.csv', 'rb') as csvfile:
 	spamreader = csv.reader(csvfile, delimiter=',', quotechar='|')
 	for row in spamreader:
 		if counter == 0:
@@ -57,9 +57,10 @@ for i in xrange(1,numberOfHouses+1):
 	s = 'h'+str(i)
 	rows.append(s)
 
-#--------------------------------------------------
+#---------------SET PRIORITY VALUES HERE-------------------------------
 
 priority = [0.7,0.0,0.2,-0.5,-0.2]
+#----------------------------------------------------------------------
 
 priorityOrder = []
 
@@ -84,7 +85,6 @@ for each in savedPriority:
 	maxPriorityIndex = savedPriority.index(maxPriority)
 	savedPriority[maxPriorityIndex] = -99
 	priorityOrder.append(maxPriorityIndex)
-
 #-------------------------------------------------
 
 priorityTable = []
@@ -101,6 +101,7 @@ for each in priorityTable:
 	print each
 
 savedPriorityTable = list(priorityTable)
+
 #------------------------------Get Row Sum of Priority Table -----------------
 print 
 rowSum = []
@@ -126,7 +127,7 @@ for each in priorityTable:
 for each in comparisionTable:
 	print each
 
-#--------------------------Final Result-----------------
+#--------------------------Semi Final Result-----------------
 print 
 
 semiFinalResult = []
@@ -134,14 +135,12 @@ print "Semi final Result"
 for each in comparisionTable:
 	semiFinalResult.append(sum(each))
 
-
 #----------------------Alteration to result to check algorithm------------
 # semiFinalResult[0] = semiFinalResult[1]
 # semiFinalResult[2] = semiFinalResult[1]
 # priorityTable[0][0] = priorityTable[1][0]
-
-
 print semiFinalResult
+
 #------------------------------Scores calculated------------
 score = semiFinalResult
 
@@ -161,14 +160,11 @@ print
 print "Approximate order of preference without tie breaker rule"
 for each in sortOrder:
 	print rows[each]
-
-
 #------------------------------Tie Breaker----------------------------------------
 startIndex = 0
 endIndex = len(sortOrder)
 
 for i in xrange(len(sortOrder)-1):
-	
 	if score[sortOrder[startIndex]] == score[sortOrder[i]]:
 		continue
 	else:
@@ -183,8 +179,7 @@ for i in xrange(len(sortOrder)-1):
 					for x in xrange(startIndex, i):
 						if priorityTable[sortOrder[x]][y] > maxValue:
 							maxIndex = sortOrder[x]
-							maxValue = priorityTable[maxIndex][y]
-						
+							maxValue = priorityTable[maxIndex][y]						
 
 					if maxIndex == startIndex and priorityTable[sortOrder[startIndex]][y] == priorityTable[sortOrder[startIndex]+1][y]:
 							break
@@ -214,3 +209,39 @@ for i in xrange(len(sortOrder)-1):
 print "Final result :"
 for each in sortOrder:
 	print rows[each]
+
+#-------------------------------------Write result to file---------------------------------------------
+with open('result.csv', 'wb') as csvfile:
+    spamwriter = csv.writer(csvfile, delimiter=',',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+    firstRow = []
+    secondRow = []
+
+    firstRow.append("")
+    for each in parameters:
+    	firstRow.append(each)
+    firstRow.append("Score")
+    spamwriter.writerow(firstRow)
+    
+    secondRow.append("")
+    for each in priority:
+    	secondRow.append(each)
+    spamwriter.writerow(secondRow)
+
+    for i in xrange(len(rows)):
+    	temp = []
+    	temp.append(rows[i])
+    	for each in fuzzySet[i]:
+    		temp.append(each)
+    	temp.append(semiFinalResult[i])
+    	spamwriter.writerow(temp)
+
+with open('order.csv', 'wb') as csvfile:
+    spamwriter = csv.writer(csvfile, delimiter=',',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+    
+    for each in sortOrder:
+    	temp = []
+    	temp.append(rows[each])
+    	temp.append(semiFinalResult[each])
+    	spamwriter.writerow(temp)
