@@ -1,36 +1,3 @@
-#---------Taking Raw input------------
-
-# numberOfParameters = raw_input("Enter the number of Parameters you want to enter : ")
-# numberOfHouses = raw_input("Enter the number of houses : ");
-
-# parameters = []
-# for i in xrange(numberOfParameters):
-# 	name = raw_input("Enter parameter " + i + " :")
-# 	parameters.append(name)
-
-# fuzzySet = []
-
-# for i in xrange(numberOfHouses):
-# 	tempList = []
-# 	for each in xrange(numberOfParameters):
-# 		a = input()
-# 		tempList.append(a)
-# 	fuzzySet.append(tempList)
-
-# priority = []
-# for i in xrange(numberOfParameters):
-# 	p = input()
-# 	priority.append(p)
-
-#-----------------------------Standart Input--------------
-# numberOfParameters = 5
-# numberOfHouses = 6
-# parameters = ["Beautiful","Wooden","Green Surrounded", "Expensive", "Distance"]
-# rows = ["h1","h2","h3","h4","h5","h6"]
-# fuzzySet = [[0.1,0,0.2,0.1,0.8],[0.9,0.6,0.8,0.8,0.3],[0.3,0.1,0.2,0.3,0.4],[0.7,0.7,0.6,0.6,0.6],[0.3,0.4,0.4,0.5,0.1],[0.9,0.5,0.6,0.6,0.5]]
-
-
-#-------------------------Importing Input from CSV File------------------
 import csv 
 
 parameters = []
